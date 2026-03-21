@@ -3,7 +3,7 @@ import { X, Mail, Lock, User, Phone, Loader2, AlertCircle, Eye, EyeOff } from "l
 import { useAuth } from "../context/AuthContext";
 
 export default function AuthModal({ onClose }) {
-  const [mode, setMode]       = useState("login"); // "login" | "signup"
+  const [mode, setMode]       = useState("login");
   const [showPwd, setShowPwd] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError]     = useState("");
@@ -14,8 +14,7 @@ export default function AuthModal({ onClose }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setError("");
-    setLoading(true);
+    setError(""); setLoading(true);
     try {
       if (mode === "login") {
         await login(form.email, form.password);
@@ -26,90 +25,80 @@ export default function AuthModal({ onClose }) {
       }
       onClose();
     } catch (err) {
-      const msg = err.code === "auth/user-not-found"    ? "No account found with this email"
-                : err.code === "auth/wrong-password"    ? "Incorrect password"
+      const msg = err.code === "auth/user-not-found"       ? "No account found with this email"
+                : err.code === "auth/wrong-password"       ? "Incorrect password"
                 : err.code === "auth/email-already-in-use" ? "Email already registered"
-                : err.code === "auth/weak-password"     ? "Password must be at least 6 characters"
+                : err.code === "auth/weak-password"        ? "Password must be at least 6 characters"
                 : err.message || "Something went wrong";
       setError(msg);
-    } finally {
-      setLoading(false);
-    }
+    } finally { setLoading(false); }
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4 animate-fade-in">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 relative animate-slide-up">
-        <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-700">
-          <X className="w-5 h-5" />
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
+      <div className="relative w-full max-w-md rounded-2xl bg-white p-8 shadow-2xl">
+        <button onClick={onClose} className="absolute right-4 top-4 text-gray-400 hover:text-gray-700">
+          <X className="h-5 w-5" />
         </button>
 
-        {/* Logo */}
-        <div className="text-center mb-6">
-          <div className="inline-flex items-center gap-1 mb-1">
-            <span className="text-brand-dark font-black text-2xl">Sabari</span>
-            <span className="text-brand-yellow font-black text-2xl"> Auto</span>
-          </div>
-          <p className="text-gray-500 text-sm">
+        <div className="mb-6 text-center">
+          <p className="text-2xl font-black text-[#0f0f0f]">
+            Sabari <span className="text-[#ff3b3b]">Auto</span>
+          </p>
+          <p className="mt-1 text-sm text-gray-500">
             {mode === "login" ? "Sign in to your account" : "Create your account"}
           </p>
         </div>
 
-        {/* Tabs */}
-        <div className="flex bg-gray-100 rounded-xl p-1 mb-6">
+        <div className="mb-6 flex rounded-xl bg-gray-100 p-1">
           {["login", "signup"].map((m) => (
-            <button
-              key={m}
-              onClick={() => { setMode(m); setError(""); }}
-              className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-all ${
-                mode === m ? "bg-white text-brand-dark shadow-sm" : "text-gray-500"
-              }`}
-            >
+            <button key={m} onClick={() => { setMode(m); setError(""); }}
+              className={`flex-1 rounded-lg py-2 text-sm font-semibold transition-all ${
+                mode === m ? "bg-white text-[#0f0f0f] shadow-sm" : "text-gray-500"
+              }`}>
               {m === "login" ? "Sign In" : "Sign Up"}
             </button>
           ))}
         </div>
 
         {error && (
-          <div className="flex items-center gap-2 bg-red-50 border border-red-200 text-red-600 text-sm px-4 py-3 rounded-xl mb-4">
-            <AlertCircle className="w-4 h-4 shrink-0" />
-            {error}
+          <div className="mb-4 flex items-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+            <AlertCircle className="h-4 w-4 shrink-0" /> {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {mode === "signup" && (
             <>
-              <Field icon={<User />} name="name" type="text" placeholder="Full Name" value={form.name} onChange={handleChange} />
-              <Field icon={<Phone />} name="phone" type="tel" placeholder="Phone Number (10 digits)" value={form.phone} onChange={handleChange} maxLength={10} />
+              <Field icon={<User />} name="name"  type="text" placeholder="Full Name"                value={form.name}  onChange={handleChange} />
+              <Field icon={<Phone />} name="phone" type="tel"  placeholder="Phone Number (10 digits)" value={form.phone} onChange={handleChange} maxLength={10} />
             </>
           )}
           <Field icon={<Mail />} name="email" type="email" placeholder="Email Address" value={form.email} onChange={handleChange} />
           <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4"><Lock className="w-4 h-4" /></span>
-            <input
-              name="password" type={showPwd ? "text" : "password"} placeholder="Password"
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+              <Lock className="h-4 w-4" />
+            </span>
+            <input name="password" type={showPwd ? "text" : "password"} placeholder="Password"
               value={form.password} onChange={handleChange} required
-              className="w-full border border-gray-200 rounded-xl pl-10 pr-10 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-red"
-            />
+              className="w-full rounded-xl border border-gray-200 py-3 pl-10 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-[#ff3b3b]" />
             <button type="button" onClick={() => setShowPwd(!showPwd)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-              {showPwd ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              {showPwd ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </button>
           </div>
-
-          <button
-            type="submit" disabled={loading}
-            className="w-full bg-brand-red text-white py-3 rounded-xl font-bold hover:bg-red-700 transition-colors disabled:opacity-60 flex items-center justify-center gap-2"
-          >
-            {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Please wait…</> : mode === "login" ? "Sign In" : "Create Account"}
+          <button type="submit" disabled={loading}
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#ff3b3b] py-3 font-bold text-white transition-colors hover:bg-red-700 disabled:opacity-60">
+            {loading
+              ? <><Loader2 className="h-4 w-4 animate-spin" /> Please wait…</>
+              : mode === "login" ? "Sign In" : "Create Account"}
           </button>
         </form>
 
-        <p className="text-center text-xs text-gray-400 mt-4">
+        <p className="mt-4 text-center text-xs text-gray-400">
           {mode === "login" ? "Don't have an account? " : "Already have an account? "}
           <button onClick={() => { setMode(mode === "login" ? "signup" : "login"); setError(""); }}
-            className="text-brand-red font-semibold hover:underline">
+            className="font-semibold text-[#ff3b3b] hover:underline">
             {mode === "login" ? "Sign Up" : "Sign In"}
           </button>
         </p>
@@ -122,13 +111,11 @@ function Field({ icon, name, type, placeholder, value, onChange, maxLength }) {
   return (
     <div className="relative">
       <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-        {React.cloneElement(icon, { className: "w-4 h-4" })}
+        {React.cloneElement(icon, { className: "h-4 w-4" })}
       </span>
-      <input
-        name={name} type={type} placeholder={placeholder}
+      <input name={name} type={type} placeholder={placeholder}
         value={value} onChange={onChange} required maxLength={maxLength}
-        className="w-full border border-gray-200 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-red"
-      />
+        className="w-full rounded-xl border border-gray-200 py-3 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#ff3b3b]" />
     </div>
   );
 }

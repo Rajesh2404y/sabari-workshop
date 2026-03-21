@@ -10,7 +10,6 @@ import {
   Calendar,
   Clock,
 } from "lucide-react";
-import { BOOKINGS_COLLECTION } from "../constants/firestore";
 import { useBooking } from "../hooks/useBooking";
 
 const SERVICE_TYPES = [
@@ -57,65 +56,96 @@ export default function Booking() {
     }
   };
 
+  // Format date nicely: 2026-04-10 → Fri, 10 Apr 2026
+  const formatDate = (d) => {
+    if (!d) return "";
+    try {
+      return new Date(d + "T00:00:00").toLocaleDateString("en-IN", {
+        weekday: "short", day: "numeric", month: "short", year: "numeric",
+      });
+    } catch { return d; }
+  };
+
   if (submitted && confirmedBooking) {
+    const rows = [
+      { label: "Customer",    value: confirmedBooking.name },
+      { label: "Phone",       value: confirmedBooking.phone },
+      { label: "Vehicle",     value: confirmedBooking.carBrand },
+      { label: "Service",     value: confirmedBooking.serviceType },
+      ...(confirmedBooking.date     ? [{ label: "Date",  value: formatDate(confirmedBooking.date) }] : []),
+      ...(confirmedBooking.timeSlot ? [{ label: "Slot",  value: confirmedBooking.timeSlot }] : []),
+    ];
+
     return (
-      <div className="flex min-h-[70vh] items-center justify-center bg-gray-50 px-4 py-20">
-        <div className="w-full max-w-md rounded-2xl border border-gray-100 bg-white p-8 text-center shadow-sm">
-          <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-green-100">
-            <CheckCircle className="h-7 w-7 text-green-500" />
-          </div>
-          <h2 className="mb-2 text-2xl font-bold text-[#0f0f0f]">
-            Booking Confirmed
-          </h2>
-          <p className="mb-6 text-sm text-gray-500">
-            Thank you, <strong>{confirmedBooking.name}</strong>. Our team will
-            call you shortly with pricing and slot details.
-          </p>
-          <div className="mb-6 space-y-2.5 rounded-xl border border-gray-100 bg-gray-50 p-4 text-left text-sm">
-            {[
-              ["Name", confirmedBooking.name],
-              ["Phone", confirmedBooking.phone],
-              ["Car", confirmedBooking.carBrand],
-              ["Service", confirmedBooking.serviceType],
-              ...(confirmedBooking.date ? [["Date", confirmedBooking.date]] : []),
-              ...(confirmedBooking.timeSlot ? [["Time", confirmedBooking.timeSlot]] : []),
-            ].map(([label, value]) => (
-              <div key={label} className="flex justify-between gap-4">
-                <span className="text-gray-400">{label}</span>
-                <span className="font-semibold text-[#0f0f0f]">{value}</span>
+      <div className="flex min-h-[80vh] items-center justify-center bg-gray-50 px-4 py-16">
+        <div className="w-full max-w-md">
+
+          {/* Card */}
+          <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
+
+            {/* Green header strip */}
+            <div className="bg-[#0f0f0f] px-8 py-8 text-center">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-500/10 ring-4 ring-green-500/20">
+                <CheckCircle className="h-8 w-8 text-green-400" />
               </div>
-            ))}
-            {confirmedBooking.saveTarget === "firestore" &&
-              confirmedBooking.firestoreId && (
-                <p className="pt-1 text-xs font-medium text-green-600">
-                  {"\u2713"} Saved to Firestore: {BOOKINGS_COLLECTION}/
-                  {confirmedBooking.firestoreId}
-                </p>
-              )}
-            {confirmedBooking.saveTarget !== "firestore" && (
-              <p className="pt-1 text-xs font-medium text-amber-600">
-                ⚠ Not saved to Firestore.{confirmedBooking.saveError ? ` Error: ${confirmedBooking.saveError}` : ""}
+              <h2 className="text-xl font-bold tracking-tight text-white">Booking Confirmed</h2>
+              <p className="mt-1 text-sm text-gray-400">
+                Ref: <span className="font-mono font-semibold text-gray-300">{confirmedBooking.bookingId}</span>
               </p>
-            )}
+            </div>
+
+            {/* Body */}
+            <div className="px-8 py-6">
+              <p className="mb-5 text-center text-sm text-gray-500">
+                Hi <span className="font-semibold text-[#0f0f0f]">{confirmedBooking.name}</span>, your service request
+                has been received. Our team will call you shortly to confirm pricing and slot.
+              </p>
+
+              {/* Details table */}
+              <div className="divide-y divide-gray-100 rounded-xl border border-gray-100">
+                {rows.map(({ label, value }) => (
+                  <div key={label} className="flex items-center justify-between px-4 py-3">
+                    <span className="text-xs font-semibold uppercase tracking-wider text-gray-400">{label}</span>
+                    <span className="text-sm font-semibold text-[#0f0f0f]">{value}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Save status */}
+              <div className="mt-4">
+                {confirmedBooking.saveTarget === "firestore" ? (
+                  <div className="flex items-center gap-2 rounded-lg bg-green-50 px-3 py-2">
+                    <CheckCircle className="h-3.5 w-3.5 shrink-0 text-green-500" />
+                    <p className="text-xs text-green-700">
+                      Booking saved successfully
+                    </p>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2 rounded-lg bg-amber-50 px-3 py-2">
+                    <span className="text-xs text-amber-700">Saved locally — will sync when online.</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Actions */}
+              <div className="mt-6 flex gap-3">
+                <a href="tel:+919444484399"
+                  className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-gray-200 py-3 text-sm font-semibold text-[#0f0f0f] transition-colors hover:border-gray-400">
+                  <Phone className="h-4 w-4" /> Call Us
+                </a>
+                <button
+                  onClick={() => { setForm(INITIAL); setSubmitted(false); setConfirmedBooking(null); }}
+                  className="flex-1 rounded-xl bg-[#ff3b3b] py-3 text-sm font-bold text-white transition-colors hover:bg-red-700">
+                  New Booking
+                </button>
+              </div>
+            </div>
           </div>
-          <div className="flex gap-3">
-            <a
-              href="tel:+919444484399"
-              className="flex-1 rounded-xl border border-gray-200 py-2.5 text-center text-sm font-semibold text-[#0f0f0f] transition-colors hover:border-[#0f0f0f]"
-            >
-              Call Us
-            </a>
-            <button
-              onClick={() => {
-                setForm(INITIAL);
-                setSubmitted(false);
-                setConfirmedBooking(null);
-              }}
-              className="flex-1 rounded-xl bg-[#ff3b3b] py-2.5 text-sm font-bold text-white transition-colors hover:bg-red-700"
-            >
-              Book Again
-            </button>
-          </div>
+
+          <p className="mt-4 text-center text-xs text-gray-400">
+            Questions? Call us at{" "}
+            <a href="tel:+919444484399" className="font-semibold text-[#0f0f0f] hover:underline">+91 94444 84399</a>
+          </p>
         </div>
       </div>
     );

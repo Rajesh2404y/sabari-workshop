@@ -13,7 +13,7 @@ const NAV = [
   { label: "Contact",      href: "/contact" },
 ];
 
-export default function Navbar() {
+const Navbar = React.memo(function Navbar() {
   const [open, setOpen]       = useState(false);
   const [showAuth, setShowAuth] = useState(false);
   const [userMenu, setUserMenu] = useState(false);
@@ -143,4 +143,6 @@ export default function Navbar() {
       )}
     </>
   );
-}
+});
+
+export default Navbar;

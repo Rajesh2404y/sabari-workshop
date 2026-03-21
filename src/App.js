@@ -2,7 +2,8 @@ import React, { lazy, Suspense, useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+
+const Footer       = lazy(() => import("./components/Footer"));
 
 // All pages lazy-loaded — each becomes its own JS chunk
 const Home         = lazy(() => import("./pages/Home"));
@@ -61,7 +62,9 @@ export default function App() {
               </Routes>
             </Suspense>
           </main>
-          <Footer />
+          <Suspense fallback={null}>
+            <Footer />
+          </Suspense>
 
           {/* Chatbot deferred until browser is idle — never blocks FCP/TBT */}
           {chatReady && (

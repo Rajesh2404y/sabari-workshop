@@ -179,12 +179,12 @@ export default function Chatbot() {
     <>
       <button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-brand-red text-white shadow-2xl transition-all hover:scale-110 hover:bg-red-700"
+        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#ff3b3b] text-white shadow-2xl transition-all hover:scale-110 hover:bg-red-700"
         aria-label="Open chat"
       >
         {open ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
         {!open && (
-          <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-brand-yellow text-[9px] font-bold text-brand-dark">
+          <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-yellow-400 text-[9px] font-bold text-[#111111]">
             AI
           </span>
         )}
@@ -192,11 +192,11 @@ export default function Chatbot() {
 
       {open && (
         <div
-          className="fixed bottom-24 right-6 z-50 flex w-80 flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-2xl animate-slide-up sm:w-96"
+          className="fixed bottom-24 right-6 z-50 flex w-80 flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-2xl sm:w-96"
           style={{ maxHeight: "520px" }}
         >
-          <div className="flex items-center gap-3 bg-brand-dark px-4 py-3">
-            <div className="rounded-full bg-brand-red p-1.5">
+          <div className="flex items-center gap-3 bg-[#111111] px-4 py-3">
+            <div className="rounded-full bg-[#ff3b3b] p-1.5">
               <Bot className="h-4 w-4 text-white" />
             </div>
             <div className="flex-1">
@@ -214,21 +214,21 @@ export default function Chatbot() {
           <div className="flex-1 space-y-3 overflow-y-auto bg-gray-50 p-4" style={{ minHeight: 0 }}>
             {messages.map((msg) => (
               <div key={msg.id} className={`flex gap-2 ${msg.from === "user" ? "flex-row-reverse" : ""}`}>
-                <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${msg.from === "bot" ? "bg-brand-red" : "bg-brand-dark"}`}>
+                <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${msg.from === "bot" ? "bg-[#ff3b3b]" : "bg-[#111111]"}`}>
                   {msg.from === "bot" ? <Bot className="h-3.5 w-3.5 text-white" /> : <User className="h-3.5 w-3.5 text-white" />}
                 </div>
                 <div className={`flex max-w-[75%] flex-col gap-1 ${msg.from === "user" ? "items-end" : "items-start"}`}>
                   <div className={`rounded-2xl px-3 py-2 text-xs leading-relaxed ${
                     msg.from === "bot"
                       ? "rounded-tl-none border border-gray-100 bg-white text-gray-700"
-                      : "rounded-tr-none bg-brand-red text-white"
+                      : "rounded-tr-none bg-[#ff3b3b] text-white"
                   }`}>
                     {renderText(msg.text)}
                   </div>
                   {msg.suggest && (
                     <button
                       onClick={() => handleAction(msg.suggest)}
-                      className="rounded-full bg-brand-yellow px-3 py-1 text-xs font-bold text-brand-dark transition-colors hover:bg-yellow-400"
+                      className="rounded-full bg-yellow-400 px-3 py-1 text-xs font-bold text-[#111111] transition-colors hover:bg-yellow-300"
                     >
                       {msg.suggest === "book" && "Book Now"}
                       {msg.suggest === "services" && "View Services"}
@@ -241,7 +241,7 @@ export default function Chatbot() {
 
             {typing && (
               <div className="flex gap-2">
-                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-brand-red">
+                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#ff3b3b]">
                   <Bot className="h-3.5 w-3.5 text-white" />
                 </div>
                 <div className="flex items-center gap-1 rounded-2xl rounded-tl-none border border-gray-100 bg-white px-3 py-2">
@@ -263,7 +263,7 @@ export default function Chatbot() {
               <button
                 key={q}
                 onClick={() => sendMessage(q)}
-                className="shrink-0 whitespace-nowrap rounded-full bg-gray-100 px-2.5 py-1 text-xs text-gray-600 transition-colors hover:bg-brand-red hover:text-white"
+                className="shrink-0 whitespace-nowrap rounded-full bg-gray-100 px-2.5 py-1 text-xs text-gray-600 transition-colors hover:bg-[#ff3b3b] hover:text-white"
               >
                 {q}
               </button>
@@ -276,12 +276,12 @@ export default function Chatbot() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && sendMessage()}
               placeholder="Type your message..."
-              className="flex-1 rounded-full border border-gray-200 bg-gray-50 px-4 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-brand-red"
+              className="flex-1 rounded-full border border-gray-200 bg-gray-50 px-4 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[#ff3b3b]"
             />
             <button
               onClick={() => sendMessage()}
               disabled={!input.trim()}
-              className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-red text-white transition-colors hover:bg-red-700 disabled:opacity-40"
+              className="flex h-8 w-8 items-center justify-center rounded-full bg-[#ff3b3b] text-white transition-colors hover:bg-red-700 disabled:opacity-40"
             >
               <Send className="h-3.5 w-3.5" />
             </button>

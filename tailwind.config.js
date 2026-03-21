@@ -3,49 +3,29 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
-      colors: {
-        brand: {
-          red: "#E53E3E",
-          yellow: "#F6C90E",
-          dark: "#111111",
-          gray: "#1E1E1E",
-          light: "#F8F8F8",
-        },
-      },
       fontFamily: {
-        sans: ["Inter", "sans-serif"],
+        sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "'Segoe UI'", "sans-serif"],
       },
-      animation: {
-        "fade-in": "fadeIn 0.6s ease-in-out",
-        "slide-up": "slideUp 0.7s ease-out",
-        "slide-in-right": "slideInRight 0.6s ease-out",
-        "bounce-slow": "bounce 2s infinite",
-        "pulse-slow": "pulse 3s infinite",
-        "spin-slow": "spin 8s linear infinite",
+      letterSpacing: {
+        tighter: "-0.04em",
+        tight:   "-0.025em",
+        normal:  "0em",
+        wide:    "0.025em",
+        wider:   "0.075em",
+        widest:  "0.15em",
       },
-      keyframes: {
-        fadeIn: {
-          "0%": { opacity: "0" },
-          "100%": { opacity: "1" },
-        },
-        slideUp: {
-          "0%": { opacity: "0", transform: "translateY(40px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
-        },
-        slideInRight: {
-          "0%": { opacity: "0", transform: "translateX(40px)" },
-          "100%": { opacity: "1", transform: "translateX(0)" },
-        },
-      },
-      backgroundImage: {
-        "hero-pattern": "radial-gradient(circle at 20% 50%, rgba(229,62,62,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(246,201,14,0.08) 0%, transparent 40%)",
-        "card-shine": "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 50%)",
-      },
-      boxShadow: {
-        "glow-red": "0 0 20px rgba(229,62,62,0.3)",
-        "glow-yellow": "0 0 20px rgba(246,201,14,0.3)",
-        "card": "0 4px 24px rgba(0,0,0,0.08)",
-        "card-hover": "0 12px 40px rgba(0,0,0,0.15)",
+      fontSize: {
+        // Fluid, professional type scale
+        "2xs": ["0.65rem",  { lineHeight: "1rem" }],
+        xs:    ["0.75rem",  { lineHeight: "1.125rem" }],
+        sm:    ["0.875rem", { lineHeight: "1.375rem" }],
+        base:  ["1rem",     { lineHeight: "1.6rem" }],
+        lg:    ["1.125rem", { lineHeight: "1.75rem" }],
+        xl:    ["1.25rem",  { lineHeight: "1.875rem" }],
+        "2xl": ["1.5rem",   { lineHeight: "2rem",   letterSpacing: "-0.02em" }],
+        "3xl": ["1.875rem", { lineHeight: "2.25rem", letterSpacing: "-0.025em" }],
+        "4xl": ["2.25rem",  { lineHeight: "2.5rem",  letterSpacing: "-0.03em" }],
+        "5xl": ["3rem",     { lineHeight: "1.1",     letterSpacing: "-0.035em" }],
       },
     },
   },
