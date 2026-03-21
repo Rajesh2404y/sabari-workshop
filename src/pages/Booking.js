@@ -7,6 +7,8 @@ import {
   CheckCircle,
   AlertCircle,
   Loader2,
+  Calendar,
+  Clock,
 } from "lucide-react";
 import { BOOKINGS_COLLECTION } from "../constants/firestore";
 import { useBooking } from "../hooks/useBooking";
@@ -27,7 +29,15 @@ const CAR_BRANDS = [
   "Toyota", "Ford", "Volkswagen", "Kia", "Renault", "Other",
 ];
 
-const INITIAL = { name: "", phone: "", carBrand: "", serviceType: "" };
+const TIME_SLOTS = [
+  "8:00 AM – 10:00 AM",
+  "10:00 AM – 12:00 PM",
+  "12:00 PM – 2:00 PM",
+  "2:00 PM – 4:00 PM",
+  "4:00 PM – 6:00 PM",
+];
+
+const INITIAL = { name: "", phone: "", carBrand: "", serviceType: "", date: "", timeSlot: "" };
 
 export default function Booking() {
   const [form, setForm] = useState(INITIAL);
@@ -67,6 +77,8 @@ export default function Booking() {
               ["Phone", confirmedBooking.phone],
               ["Car", confirmedBooking.carBrand],
               ["Service", confirmedBooking.serviceType],
+              ...(confirmedBooking.date ? [["Date", confirmedBooking.date]] : []),
+              ...(confirmedBooking.timeSlot ? [["Time", confirmedBooking.timeSlot]] : []),
             ].map(([label, value]) => (
               <div key={label} className="flex justify-between gap-4">
                 <span className="text-gray-400">{label}</span>
@@ -194,6 +206,40 @@ export default function Booking() {
                 {errors.carBrand && (
                   <p className="mt-1 text-xs text-red-500">{errors.carBrand}</p>
                 )}
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="mb-1.5 block text-sm font-semibold text-gray-700">
+                    <Calendar className="mr-1 inline h-3.5 w-3.5 text-gray-400" />{" "}
+                    Preferred Date
+                  </label>
+                  <input
+                    type="date"
+                    name="date"
+                    value={form.date}
+                    onChange={handleChange}
+                    min={new Date().toISOString().split("T")[0]}
+                    className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#ff3b3b]"
+                  />
+                </div>
+                <div>
+                  <label className="mb-1.5 block text-sm font-semibold text-gray-700">
+                    <Clock className="mr-1 inline h-3.5 w-3.5 text-gray-400" />{" "}
+                    Time Slot
+                  </label>
+                  <select
+                    name="timeSlot"
+                    value={form.timeSlot}
+                    onChange={handleChange}
+                    className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#ff3b3b]"
+                  >
+                    <option value="">Any time</option>
+                    {TIME_SLOTS.map((t) => (
+                      <option key={t}>{t}</option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
               <div>

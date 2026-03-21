@@ -33,9 +33,8 @@ export async function notifyOwner(booking) {
       customer_email: booking.email || "Not provided",
       car_brand: booking.carBrand,
       service_type: booking.serviceType,
-      booking_date: booking.date,
-      booking_time: booking.time,
-      pickup_drop: booking.pickup ? `Yes - ${booking.address}` : "No",
+      booking_date: booking.date || "Flexible",
+      booking_time: booking.timeSlot || "Any time",
       booking_id: booking.bookingId,
       workshop_name: WORKSHOP_NAME,
       quote_note: "Please contact the customer with service and quote details.",
@@ -55,9 +54,8 @@ export async function notifyCustomer(booking) {
       customer_name: booking.name,
       service_type: booking.serviceType,
       car_brand: booking.carBrand,
-      booking_date: booking.date,
-      booking_time: booking.time,
-      pickup_drop: booking.pickup ? "Yes (Pickup and Drop)" : "No",
+      booking_date: booking.date || "Flexible",
+      booking_time: booking.timeSlot || "Any time",
       owner_phone: OWNER_PHONE,
       workshop_name: WORKSHOP_NAME,
       quote_note: "Our team will contact you with price details and booking confirmation.",
@@ -75,9 +73,8 @@ export function openOwnerWhatsApp(booking) {
     `Phone: ${booking.phone}\n` +
     `Car: ${booking.carBrand}\n` +
     `Service: ${booking.serviceType}\n` +
-    `Date: ${booking.date}\n` +
-    `Time: ${booking.time}\n` +
-    `Pickup: ${booking.pickup ? `Yes - ${booking.address}` : "No"}\n\n` +
+    `Date: ${booking.date || "Flexible"}\n` +
+    `Time: ${booking.timeSlot || "Any time"}\n\n` +
     `Please contact the customer with quote details.`
   );
   window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
