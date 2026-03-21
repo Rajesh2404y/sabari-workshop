@@ -1,9 +1,6 @@
-import React, { useState, useEffect, lazy, Suspense } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Wrench, Phone, User, LogOut, LayoutDashboard } from "lucide-react";
-import { useAuth } from "../context/AuthContext";
-
-const AuthModal = lazy(() => import("./AuthModal"));
+import { Menu, X, Wrench, Phone } from "lucide-react";
 
 const NAV = [
   { label: "Home",         href: "/" },
@@ -14,13 +11,10 @@ const NAV = [
 ];
 
 const Navbar = React.memo(function Navbar() {
-  const [open, setOpen]       = useState(false);
-  const [showAuth, setShowAuth] = useState(false);
-  const [userMenu, setUserMenu] = useState(false);
-  const location              = useLocation();
-  const { user, profile, logout } = useAuth();
+  const [open, setOpen] = useState(false);
+  const location        = useLocation();
 
-  useEffect(() => { setOpen(false); setUserMenu(false); }, [location]);
+  useEffect(() => { setOpen(false); }, [location]);
 
   const isActive = (href) =>
     href === "/" ? location.pathname === "/" : location.pathname.startsWith(href);
@@ -61,34 +55,10 @@ const Navbar = React.memo(function Navbar() {
               className="flex items-center gap-1.5 rounded-xl border border-gray-200 px-3 py-2 text-sm font-semibold text-[#0f0f0f] hover:border-gray-400 transition-colors">
               <Phone className="h-3.5 w-3.5" /> Call
             </a>
-
-            {user ? (
-              <div className="relative">
-                <button onClick={() => setUserMenu(!userMenu)}
-                  className="flex items-center gap-2 rounded-xl border border-gray-200 px-3 py-2 text-sm font-semibold text-[#0f0f0f] hover:bg-gray-50 transition-colors">
-                  <div className="flex h-5 w-5 items-center justify-center rounded-full bg-[#ff3b3b] text-[10px] font-bold text-white">
-                    {(profile?.name || user.displayName || "U")[0].toUpperCase()}
-                  </div>
-                  <span className="max-w-[80px] truncate">{profile?.name || user.displayName || "Account"}</span>
-                </button>
-                {userMenu && (
-                  <div className="absolute right-0 top-full mt-2 w-40 overflow-hidden rounded-xl border border-gray-100 bg-white shadow-lg">
-                    <Link to="/dashboard" className="flex items-center gap-2 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">
-                      <LayoutDashboard className="h-4 w-4 text-[#ff3b3b]" /> Dashboard
-                    </Link>
-                    <button onClick={logout}
-                      className="flex w-full items-center gap-2 border-t border-gray-100 px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50">
-                      <LogOut className="h-4 w-4 text-gray-400" /> Sign Out
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <button onClick={() => setShowAuth(true)}
-                className="flex items-center gap-1.5 rounded-xl bg-[#ff3b3b] px-4 py-2 text-sm font-bold text-white hover:bg-red-700 transition-colors">
-                <User className="h-3.5 w-3.5" /> Sign In
-              </button>
-            )}
+            <Link to="/booking"
+              className="flex items-center gap-1.5 rounded-xl bg-[#ff3b3b] px-4 py-2 text-sm font-bold text-white hover:bg-red-700 transition-colors">
+              Book Now
+            </Link>
           </div>
 
           {/* Mobile toggle */}
@@ -120,27 +90,15 @@ const Navbar = React.memo(function Navbar() {
                 className="flex-1 flex items-center justify-center gap-2 rounded-xl border border-gray-200 py-2.5 text-sm font-semibold text-[#0f0f0f]">
                 <Phone className="h-4 w-4" /> Call
               </a>
-              {user ? (
-                <Link to="/dashboard"
-                  className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-[#ff3b3b] py-2.5 text-sm font-bold text-white">
-                  <LayoutDashboard className="h-4 w-4" /> Dashboard
-                </Link>
-              ) : (
-                <button onClick={() => { setShowAuth(true); setOpen(false); }}
-                  className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-[#ff3b3b] py-2.5 text-sm font-bold text-white">
-                  <User className="h-4 w-4" /> Sign In
-                </button>
-              )}
+              <Link to="/booking"
+                className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-[#ff3b3b] py-2.5 text-sm font-bold text-white">
+                Book Now
+              </Link>
             </div>
           </div>
         )}
       </nav>
 
-      {showAuth && (
-        <Suspense fallback={null}>
-          <AuthModal onClose={() => setShowAuth(false)} />
-        </Suspense>
-      )}
     </>
   );
 });

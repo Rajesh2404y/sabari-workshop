@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
 import { isFirebaseConfigured, getFirebaseDb } from "../firebase";
 import { sendAllNotifications, openOwnerWhatsApp } from "../services/notificationService";
 
@@ -43,8 +42,6 @@ export function useBooking() {
   const [errors,      setErrors]      = useState({});
   const [loading,     setLoading]     = useState(false);
   const [notifStatus, setNotifStatus] = useState(null);
-  const { user } = useAuth();
-
   async function submitBooking(form) {
     const validationErrors = validate(form);
     if (Object.keys(validationErrors).length > 0) {
@@ -64,7 +61,7 @@ export function useBooking() {
       ...form,
       bookingId: generateBookingId(),
       status:    "pending",
-      userId:    user?.uid || null,
+      userId:    null,
       createdAt: new Date().toISOString(),
     };
 
