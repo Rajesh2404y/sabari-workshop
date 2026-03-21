@@ -1,0 +1,44 @@
+[debug] [2026-03-21T07:23:41.306Z] ----------------------------------------------------------------------
+[debug] [2026-03-21T07:23:41.308Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Rajesh Yuvaraja\AppData\Local\npm-cache\_npx\7750544ccf494d8b\node_modules\firebase-tools\lib\bin\firebase.js deploy --only firestore:rules --project sabari-f8bcc
+[debug] [2026-03-21T07:23:41.308Z] CLI Version:   15.11.0
+[debug] [2026-03-21T07:23:41.308Z] Platform:      win32
+[debug] [2026-03-21T07:23:41.308Z] Node Version:  v24.13.0
+[debug] [2026-03-21T07:23:41.309Z] Time:          Sat Mar 21 2026 12:53:41 GMT+0530 (India Standard Time)
+[debug] [2026-03-21T07:23:41.309Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-21T07:23:41.310Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[error] 
+[error] Error: Not in a Firebase app directory (could not locate firebase.json)
+[debug] [2026-03-21T07:24:48.838Z] ----------------------------------------------------------------------
+[debug] [2026-03-21T07:24:48.840Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Rajesh Yuvaraja\AppData\Local\npm-cache\_npx\7750544ccf494d8b\node_modules\firebase-tools\lib\bin\firebase.js deploy --only firestore:rules --project sabari-f8bcc
+[debug] [2026-03-21T07:24:48.841Z] CLI Version:   15.11.0
+[debug] [2026-03-21T07:24:48.841Z] Platform:      win32
+[debug] [2026-03-21T07:24:48.841Z] Node Version:  v24.13.0
+[debug] [2026-03-21T07:24:48.841Z] Time:          Sat Mar 21 2026 12:54:48 GMT+0530 (India Standard Time)
+[debug] [2026-03-21T07:24:48.841Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-21T07:24:48.843Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2026-03-21T07:24:50.516Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-21T07:24:50.557Z] Error: Could not load the default credentials. Browse to https://cloud.google.com/docs/authentication/getting-started for more information.
+    at GoogleAuth.getApplicationDefaultAsync (C:\Users\Rajesh Yuvaraja\AppData\Local\npm-cache\_npx\7750544ccf494d8b\node_modules\google-auth-library\build\src\auth\googleauth.js:287:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async GoogleAuth._GoogleAuth_determineClient (C:\Users\Rajesh Yuvaraja\AppData\Local\npm-cache\_npx\7750544ccf494d8b\node_modules\google-auth-library\build\src\auth\googleauth.js:834:32)
+    at async GoogleAuth.getClient (C:\Users\Rajesh Yuvaraja\AppData\Local\npm-cache\_npx\7750544ccf494d8b\node_modules\google-auth-library\build\src\auth\googleauth.js:698:20)
+    at async GoogleAuth.getAccessToken (C:\Users\Rajesh Yuvaraja\AppData\Local\npm-cache\_npx\7750544ccf494d8b\node_modules\google-auth-library\build\src\auth\googleauth.js:722:24)
+    at async autoAuth (C:\Users\Rajesh Yuvaraja\AppData\Local\npm-cache\_npx\7750544ccf494d8b\node_modules\firebase-tools\lib\requireAuth.js:28:19)
+    at async requireAuth (C:\Users\Rajesh Yuvaraja\AppData\Local\npm-cache\_npx\7750544ccf494d8b\node_modules\firebase-tools\lib\requireAuth.js:90:20)
+    at async requirePermissions (C:\Users\Rajesh Yuvaraja\AppData\Local\npm-cache\_npx\7750544ccf494d8b\node_modules\firebase-tools\lib\requirePermissions.js:17:5)
+    at async C:\Users\Rajesh Yuvaraja\AppData\Local\npm-cache\_npx\7750544ccf494d8b\node_modules\firebase-tools\lib\command.js:264:17
+[error] 
+[error] Error: Failed to authenticate, have you run firebase login?
+[debug] [2026-03-21T07:24:57.635Z] ----------------------------------------------------------------------
+[debug] [2026-03-21T07:24:57.637Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Rajesh Yuvaraja\AppData\Local\npm-cache\_npx\7750544ccf494d8b\node_modules\firebase-tools\lib\bin\firebase.js login
+[debug] [2026-03-21T07:24:57.638Z] CLI Version:   15.11.0
+[debug] [2026-03-21T07:24:57.638Z] Platform:      win32
+[debug] [2026-03-21T07:24:57.638Z] Node Version:  v24.13.0
+[debug] [2026-03-21T07:24:57.638Z] Time:          Sat Mar 21 2026 12:54:57 GMT+0530 (India Standard Time)
+[debug] [2026-03-21T07:24:57.638Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-21T07:24:57.640Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[error] 
+[error] Error: Cannot run login in non-interactive mode. See login:ci to generate a token for use in non-interactive environments.
