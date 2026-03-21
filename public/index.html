@@ -15,9 +15,9 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
     <!-- Preconnect to Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Non-blocking font load — does NOT block FCP -->
+    <!-- Non-blocking font — never delays FCP -->
     <link rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
       media="print" onload="this.media='all'" />
@@ -26,63 +26,29 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" />
     </noscript>
 
-    <!--
-      CRITICAL CSS — painted by browser BEFORE any JS loads.
-      Every value here must exactly match the React-rendered output
-      to prevent Cumulative Layout Shift (CLS).
-    -->
     <style>
-      /* Reset */
+      /* Minimal critical CSS — only what's needed before JS loads */
       *,::before,::after{box-sizing:border-box;margin:0;padding:0}
-      html{scroll-behavior:smooth}
       body{
         font-family:Inter,system-ui,-apple-system,sans-serif;
         background:#fff;
         color:#111;
         -webkit-font-smoothing:antialiased;
-        -moz-osx-font-smoothing:grayscale;
       }
+      #root{display:flex;flex-direction:column;min-height:100vh}
 
-      /* Root flex column — matches App.js wrapper */
-      #root{
-        display:flex;
-        flex-direction:column;
-        min-height:100vh;
-      }
-
-      /*
-        Navbar shell — EXACTLY matches Navbar.js:
-        sticky, top-0, z-50, bg-white, border-b border-gray-200, h-16
-        Pre-painting this prevents the hero from jumping down when nav renders.
-      */
+      /* Navbar shell — sticky white bar, exact h-16 match */
       #shell-nav{
-        position:sticky;
-        top:0;
-        z-index:50;
+        position:sticky;top:0;z-index:50;
         background:#fff;
         border-bottom:1px solid #e5e7eb;
-        height:64px;
-        width:100%;
-        flex-shrink:0;
+        height:64px;width:100%;flex-shrink:0;
       }
 
-      /*
-        Hero shell — EXACTLY matches Home.js hero section:
-        bg-[#0f0f0f], height:560px, contain:layout size
-        Pre-painting this prevents content below from shifting up.
-      */
-      #shell-hero{
-        background:#0f0f0f;
-        height:560px;
-        width:100%;
-        contain:layout size;
-        flex-shrink:0;
-      }
-
-      /* Main content area grows to fill remaining space */
+      /* Content shell — fills remaining viewport, no CLS on any route */
       #shell-main{
-        flex:1;
-        background:#fff;
+        flex:1;background:#fff;
+        min-height:calc(100vh - 64px);
       }
     </style>
 
@@ -90,18 +56,9 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-
-    <!--
-      Pre-rendered shell — visible INSTANTLY before React loads.
-      React replaces #root content on hydration.
-      Shell elements have exact same dimensions as real components
-      so there is ZERO layout shift (CLS = 0).
-    -->
     <div id="root">
       <div id="shell-nav"></div>
-      <div id="shell-main">
-        <div id="shell-hero"></div>
-      </div>
+      <div id="shell-main"></div>
     </div>
   </body>
 </html>

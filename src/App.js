@@ -10,6 +10,7 @@ const Services     = lazy(() => import("./pages/Services"));
 const Booking      = lazy(() => import("./pages/Booking"));
 const Contact      = lazy(() => import("./pages/Contact"));
 const About        = lazy(() => import("./pages/About"));
+const Reviews      = lazy(() => import("./pages/Reviews"));
 const QRPage       = lazy(() => import("./pages/QRPage"));
 const Dashboard    = lazy(() => import("./pages/Dashboard"));
 const AdminCoupons = lazy(() => import("./pages/admin/AdminCoupons"));
@@ -53,6 +54,7 @@ export default function App() {
                 <Route path="/booking"       element={<Booking />} />
                 <Route path="/contact"       element={<Contact />} />
                 <Route path="/about"         element={<About />} />
+                <Route path="/reviews"       element={<Reviews />} />
                 <Route path="/qr"            element={<QRPage />} />
                 <Route path="/dashboard"     element={<Dashboard />} />
                 <Route path="/admin/coupons" element={<AdminCoupons />} />

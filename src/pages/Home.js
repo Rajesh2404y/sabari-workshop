@@ -4,6 +4,7 @@ import {
   Droplets, Wrench, Wind, Shield, Battery, Car,
   CheckCircle, ArrowRight, Users, Clock, Award, MessageCircle,
 } from "lucide-react";
+import { ReviewsList } from "../components/Reviews";
 
 const SERVICES = [
   { Icon: Droplets, name: "Basic Service",       desc: "Routine maintenance to keep your car healthy and road-ready." },
@@ -127,6 +128,23 @@ export default function Home() {
                 <p className="text-sm leading-relaxed text-gray-500">{desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Reviews ──────────────────────────────────────────────────────── */}
+      <section className="cv-auto bg-gray-50 py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-10 text-center">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#ff3b3b]">Testimonials</p>
+            <h2 className="text-3xl font-bold text-[#0f0f0f]">What Our Customers Say</h2>
+          </div>
+          <ReviewsList maxItems={6} />
+          <div className="mt-8 text-center">
+            <Link to="/reviews"
+              className="inline-flex items-center gap-2 rounded-xl border border-gray-200 px-6 py-2.5 text-sm font-semibold text-[#0f0f0f] hover:border-[#0f0f0f] transition-colors">
+              Write a Review <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
         </div>
       </section>

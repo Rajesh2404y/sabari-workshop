@@ -1,48 +1,48 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import {
-  isFirebaseConfigured,
-  getFirebaseAuth,
-  getFirebaseDb,
-} from "../firebase";
+import { isFirebaseConfigured, getFirebaseAuth, getFirebaseDb } from "../firebase";
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user,    setUser]    = useState(null);
   const [profile, setProfile] = useState(null);
-  const [loading, setLoading] = useState(isFirebaseConfigured); // false immediately when unconfigured
+  const [loading, setLoading] = useState(false); // never blocks first render
 
   useEffect(() => {
     if (!isFirebaseConfigured) return;
-
     let unsub = () => {};
+    let cancelled = false;
 
-    // Load Firebase auth asynchronously — never blocks first paint
-    (async () => {
-      const auth = await getFirebaseAuth();
-      const db   = await getFirebaseDb();
-      if (!auth) { setLoading(false); return; }
-
-      const { onAuthStateChanged } = await import("firebase/auth");
-      const { doc, getDoc }        = await import("firebase/firestore");
-
-      unsub = onAuthStateChanged(auth, async (firebaseUser) => {
-        setUser(firebaseUser);
-        if (firebaseUser && db) {
-          try {
-            const snap = await getDoc(doc(db, "users", firebaseUser.uid));
-            setProfile(snap.exists() ? snap.data() : null);
-          } catch {
+    const initAuth = async () => {
+      if (cancelled) return;
+      try {
+        const auth = await getFirebaseAuth();
+        const db   = await getFirebaseDb();
+        if (!auth || cancelled) return;
+        const { onAuthStateChanged } = await import("firebase/auth");
+        const { doc, getDoc }        = await import("firebase/firestore");
+        unsub = onAuthStateChanged(auth, async (firebaseUser) => {
+          setUser(firebaseUser);
+          if (firebaseUser && db) {
+            try {
+              const snap = await getDoc(doc(db, "users", firebaseUser.uid));
+              setProfile(snap.exists() ? snap.data() : null);
+            } catch { setProfile(null); }
+          } else {
             setProfile(null);
           }
-        } else {
-          setProfile(null);
-        }
-        setLoading(false);
-      });
-    })();
+          setLoading(false);
+        });
+      } catch { setLoading(false); }
+    };
 
-    return () => unsub();
+    // Defer until browser idle — never blocks FCP or TBT
+    if (typeof requestIdleCallback !== "undefined") {
+      const id = requestIdleCallback(initAuth, { timeout: 3000 });
+      return () => { cancelled = true; cancelIdleCallback(id); unsub(); };
+    }
+    const id = setTimeout(initAuth, 500);
+    return () => { cancelled = true; clearTimeout(id); unsub(); };
   }, []);
 
   async function signup(name, email, password, phone) {
@@ -69,9 +69,7 @@ export function AuthProvider({ children }) {
     try {
       const snap = await getDoc(doc(db, "users", cred.user.uid));
       setProfile(snap.exists() ? snap.data() : null);
-    } catch {
-      setProfile(null);
-    }
+    } catch { setProfile(null); }
     return cred.user;
   }
 
@@ -91,6 +89,4 @@ export function AuthProvider({ children }) {
   );
 }
 
-export function useAuth() {
-  return useContext(AuthContext);
-}
+export function useAuth() { return useContext(AuthContext); }

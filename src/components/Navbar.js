@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Wrench, Phone, User, LogOut, LayoutDashboard } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
-import AuthModal from "./AuthModal";
+
+const AuthModal = lazy(() => import("./AuthModal"));
 
 const NAV = [
   { label: "Home",         href: "/" },
   { label: "Services",     href: "/services" },
   { label: "Book Service", href: "/booking" },
+  { label: "Reviews",      href: "/reviews" },
   { label: "Contact",      href: "/contact" },
 ];
 
@@ -134,7 +136,11 @@ export default function Navbar() {
         )}
       </nav>
 
-      {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
+      {showAuth && (
+        <Suspense fallback={null}>
+          <AuthModal onClose={() => setShowAuth(false)} />
+        </Suspense>
+      )}
     </>
   );
 }
