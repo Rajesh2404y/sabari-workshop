@@ -45,6 +45,12 @@
 .animate-fade-in  { animation: fadeIn  0.4s ease-out both; }
 .animate-slide-up { animation: slideUp 0.5s ease-out both; }
 
+/* content-visibility — skip rendering off-screen sections until scroll */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 400px;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar       { width: 5px; }
 ::-webkit-scrollbar-track { background: #f1f1f1; }
@@ -136,6 +142,5 @@
   position: absolute;
   border-radius: 50%;
   pointer-events: none;
-  will-change: transform, opacity;
   z-index: 10;
 }

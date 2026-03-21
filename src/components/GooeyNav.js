@@ -43,16 +43,20 @@ export default function GooeyNav({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [controlledActive]);
 
-  // ── Noise turbulence animation ──────────────────────────────────────────
+  // ── Noise turbulence animation — throttled to 10fps to avoid TBT ────────
   useEffect(() => {
     let frame = 0;
     let raf;
-    function tick() {
-      frame += 0.003;
+    let last = 0;
+    const INTERVAL = 100; // ~10fps — imperceptible difference, huge TBT saving
+    function tick(now) {
+      raf = requestAnimationFrame(tick);
+      if (now - last < INTERVAL) return;
+      last = now;
+      frame += 0.03;
       if (noiseRef.current) {
         noiseRef.current.setAttribute("baseFrequency", `${0.9 + Math.sin(frame) * 0.05}`);
       }
-      raf = requestAnimationFrame(tick);
     }
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);

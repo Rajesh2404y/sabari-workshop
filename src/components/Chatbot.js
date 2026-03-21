@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { MessageCircle, X, Send, Bot, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { db } from "../firebase";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { isFirebaseConfigured, getFirebaseDb } from "../firebase";
 
 const RULES = [
   {
@@ -129,7 +128,11 @@ export default function Chatbot() {
   }, [messages, typing]);
 
   async function saveToDB(userMsg, botMsg) {
+    if (!isFirebaseConfigured) return;
     try {
+      const db = await getFirebaseDb();
+      if (!db) return;
+      const { collection, addDoc, serverTimestamp } = await import("firebase/firestore");
       await addDoc(collection(db, "chatHistory"), {
         sessionId,
         userMessage: userMsg,

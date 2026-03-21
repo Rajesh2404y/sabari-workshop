@@ -91,14 +91,18 @@ export default function Navbar() {
 
           {/* Mobile toggle */}
           <button className="rounded-lg p-2 text-[#0f0f0f] hover:bg-gray-100 transition-colors md:hidden"
-            onClick={() => setOpen(!open)} aria-label="Toggle menu">
+            onClick={() => setOpen(!open)}
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+          >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
 
         {/* Mobile menu */}
         {open && (
-          <div className="border-t border-gray-100 bg-white px-4 py-4 md:hidden">
+          <div id="mobile-menu" className="border-t border-gray-100 bg-white px-4 py-4 md:hidden">
             <div className="space-y-1 mb-4">
               {NAV.map((item) => (
                 <Link key={item.href} to={item.href}

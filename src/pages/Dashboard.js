@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
-import { db, isFirebaseConfigured } from "../firebase";
+import { isFirebaseConfigured, getFirebaseDb } from "../firebase";
 import {
   Car, Calendar, Clock, CheckCircle,
   Loader2, LogOut, User, Phone, Mail, Star, Wrench,
@@ -9,9 +9,6 @@ import {
 import { ReviewForm } from "../components/Reviews";
 
 let collection, getDocs, query, where, orderBy;
-if (isFirebaseConfigured) {
-  ({ collection, getDocs, query, where, orderBy } = require("firebase/firestore"));
-}
 
 const STATUS_STYLES = {
   confirmed: "bg-blue-100 text-blue-700",
@@ -35,12 +32,12 @@ export default function Dashboard() {
   }, [user, navigate]);
 
   useEffect(() => {
-    if (!user || !isFirebaseConfigured || !db) {
-      setLoading(false);
-      return;
-    }
+    if (!user || !isFirebaseConfigured) { setLoading(false); return; }
     async function load() {
       try {
+        const db = await getFirebaseDb();
+        if (!db) { setLoading(false); return; }
+        ({ collection, getDocs, query, where, orderBy } = await import("firebase/firestore"));
         const snap = await getDocs(
           query(collection(db, "bookings"), where("userId", "==", user.uid), orderBy("createdAt", "desc"))
         );

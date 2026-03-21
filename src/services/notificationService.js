@@ -21,10 +21,7 @@ function isEmailJSConfigured() {
 }
 
 export async function notifyOwner(booking) {
-  if (!isEmailJSConfigured()) {
-    console.warn("[EmailJS] Keys not configured - skipping owner email.");
-    return null;
-  }
+  if (!isEmailJSConfigured()) return null;
   return emailjs.send(
     SERVICE_ID,
     OWNER_TEMPLATE,
@@ -94,7 +91,6 @@ export async function sendAllNotifications(booking) {
     result.ownerSent = res !== null;
   } catch (err) {
     result.errors.push(`Owner email: ${err.text || err.message}`);
-    console.error("[EmailJS] Owner notification failed:", err);
   }
 
   try {
@@ -102,7 +98,6 @@ export async function sendAllNotifications(booking) {
     result.customerSent = res !== null;
   } catch (err) {
     result.errors.push(`Customer email: ${err.text || err.message}`);
-    console.error("[EmailJS] Customer notification failed:", err);
   }
 
   return result;
