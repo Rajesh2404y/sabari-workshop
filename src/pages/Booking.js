@@ -82,8 +82,7 @@ export default function Booking() {
               )}
             {confirmedBooking.saveTarget !== "firestore" && (
               <p className="pt-1 text-xs font-medium text-amber-600">
-                Saved only on this device. Check Firebase rules and look in the
-                "{BOOKINGS_COLLECTION}" collection.
+                ⚠ Not saved to Firestore.{confirmedBooking.saveError ? ` Error: ${confirmedBooking.saveError}` : ""}
               </p>
             )}
           </div>

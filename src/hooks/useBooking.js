@@ -86,6 +86,8 @@ export function useBooking() {
         }
       } catch (err) {
         saveError = err?.message || "Firestore error";
+        // eslint-disable-next-line no-console
+        console.error("[Firestore save error]", err);
       }
     } else {
       saveError = "Firebase not configured";
