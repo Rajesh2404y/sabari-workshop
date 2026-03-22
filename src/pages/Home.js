@@ -120,7 +120,7 @@ export default function Home() {
           <div className="relative overflow-hidden rounded-[28px] border border-gray-100 bg-gray-100 shadow-xl shadow-black/5">
             {showWorkshopImage ? (
               <img
-                src="/workshop-engine.jpeg"
+                src="/workshop-engine1.jpeg"
                 alt="Sabari Auto Workshop engine repair"
                 className="h-full w-full object-cover"
                 loading="lazy"
