@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Droplets, Wrench, Wind, Shield, Battery, Car,
@@ -34,6 +34,8 @@ function SectionLabel({ children }) {
 }
 
 export default function Home() {
+  const [showWorkshopImage, setShowWorkshopImage] = useState(true);
+
   return (
     <div className="bg-white">
 
@@ -82,6 +84,66 @@ export default function Home() {
       </section>
 
       {/* ── Services ── */}
+      <section className="cv-auto bg-white py-20">
+        <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+          <div>
+            <SectionLabel>Inside The Workshop</SectionLabel>
+            <h2 className="mb-4 text-3xl font-extrabold tracking-tight text-[#0f0f0f]">
+              Real Repairs, Trusted Hands
+            </h2>
+            <p className="mb-4 text-sm leading-relaxed text-gray-600">
+              A look inside Sabari Auto Workshop where our team handles engine checks,
+              repair work, and routine maintenance with care.
+            </p>
+            <p className="mb-8 text-sm leading-relaxed text-gray-600">
+              From diagnostics to battery replacement and engine service, we keep every
+              job transparent and workshop-ready from start to finish.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                to="/booking"
+                className="rounded-xl bg-[#ff3b3b] px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-red-700"
+              >
+                Book Workshop Visit
+              </Link>
+              <a
+                href="https://wa.me/919444484399?text=Hi%20Sabari%20Auto%2C%20I%20want%20to%20check%20my%20car"
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-xl border border-gray-200 px-6 py-3 text-sm font-semibold text-[#0f0f0f] transition-colors hover:border-gray-400"
+              >
+                Ask on WhatsApp
+              </a>
+            </div>
+          </div>
+
+          <div className="relative overflow-hidden rounded-[28px] border border-gray-100 bg-gray-100 shadow-xl shadow-black/5">
+            {showWorkshopImage ? (
+              <img
+                src="/workshop-engine.jpeg"
+                alt="Sabari Auto Workshop engine repair"
+                className="h-full w-full object-cover"
+                loading="lazy"
+                onError={() => setShowWorkshopImage(false)}
+              />
+            ) : (
+              <div className="flex min-h-[320px] items-center justify-center bg-gradient-to-br from-[#1a1a1a] via-[#2a2a2a] to-[#111111] p-8 text-center">
+                <div>
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#ff3b3b]">
+                    Image Slot Ready
+                  </p>
+                  <p className="text-sm leading-relaxed text-gray-300">
+                    Add your workshop photo as{" "}
+                    <span className="font-semibold text-white">public/workshop-engine.jpg</span>{" "}
+                    to display it here.
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
       <section className="cv-auto bg-gray-50 py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-12 text-center">
