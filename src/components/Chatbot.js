@@ -55,7 +55,7 @@ const RULES = [
   },
   {
     patterns: ["location", "address", "where", "directions", "map"],
-    reply: "Sabari Auto Workshop\n\nAnna Nagar\nChennai - 600040\n\nMon-Sat: 8 AM - 8 PM\nSun: 9 AM - 5 PM\n\nNeed directions? Visit our Contact page.",
+    reply: "Sabari Auto Workshop\n\nNo. 41, Gangai Nagar, Service Road,\nKamban Street, Kallikuppam,\nChennai – 600053\n\nMon-Sat: 8 AM - 8 PM\nSun: 9 AM - 5 PM\n\nNeed directions? Visit our Contact page.",
     suggest: "contact",
   },
   {

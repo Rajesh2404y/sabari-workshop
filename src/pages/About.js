@@ -54,7 +54,7 @@ export default function About() {
               </h2>
               <p className="mb-4 text-sm leading-relaxed text-gray-600">
                 Founded in 2010, Sabari Auto Workshop has become a go-to service center for car owners across Chennai.
-                Located in Anna Nagar, we have built our reputation on quality workmanship, honest guidance, and dependable service.
+                Located in Kallikuppam, Chennai, we have built our reputation on quality workmanship, honest guidance, and dependable service.
               </p>
               <p className="mb-8 text-sm leading-relaxed text-gray-600">
                 Our team uses modern diagnostic tools and proven workshop processes to support everything from routine
@@ -75,7 +75,7 @@ export default function About() {
                   <MapPin className="h-5 w-5 text-[#ff3b3b]" />
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-[#0f0f0f]">Anna Nagar, Chennai — 600040</p>
+                  <p className="text-sm font-bold text-[#0f0f0f]">No. 41, Gangai Nagar, Kallikuppam, Chennai – 600053</p>
                   <p className="text-xs text-gray-500">Mon–Sat: 8 AM–8 PM · Sun: 9 AM–5 PM</p>
                 </div>
               </div>

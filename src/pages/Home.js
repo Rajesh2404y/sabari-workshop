@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useState } from "react";
+import React, { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Droplets, Wrench, Wind, Shield, Battery, Car,
@@ -35,6 +35,25 @@ function SectionLabel({ children }) {
 
 export default function Home() {
   const [showWorkshopImage, setShowWorkshopImage] = useState(true);
+  const [reviewsReady, setReviewsReady] = useState(false);
+  const reviewsRef = useRef(null);
+
+  useEffect(() => {
+    if (!reviewsRef.current || reviewsReady) return undefined;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setReviewsReady(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "240px 0px" }
+    );
+
+    observer.observe(reviewsRef.current);
+    return () => observer.disconnect();
+  }, [reviewsReady]);
 
   return (
     <div className="bg-white">
@@ -50,7 +69,7 @@ export default function Home() {
         </div>
 
         <div className="relative mx-auto max-w-2xl px-6">
-          <SectionLabel>Anna Nagar, Chennai</SectionLabel>
+          <SectionLabel>Kallikuppam, Chennai – 600053</SectionLabel>
           <h1 className="mb-5 text-4xl font-extrabold leading-[1.15] tracking-tight text-white sm:text-5xl">
             Trusted Car Service<br />
             <span className="text-[#ff3b3b]">You Can Rely On</span>
@@ -123,7 +142,10 @@ export default function Home() {
                 src="/workshop-engine1.jpeg"
                 alt="Sabari Auto Workshop engine repair"
                 className="h-full w-full object-cover"
-                loading="lazy"
+                width="600"
+                height="400"
+                loading="eager"
+                fetchpriority="high"
                 onError={() => setShowWorkshopImage(false)}
               />
             ) : (
@@ -199,15 +221,19 @@ export default function Home() {
       </section>
 
       {/* ── Reviews ── */}
-      <section className="cv-auto bg-gray-50 py-20">
+      <section ref={reviewsRef} className="cv-auto bg-gray-50 py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-12 text-center">
             <SectionLabel>Testimonials</SectionLabel>
             <h2 className="text-3xl font-extrabold tracking-tight text-[#0f0f0f]">What Our Customers Say</h2>
           </div>
-          <Suspense fallback={<div className="h-64 animate-pulse rounded-2xl bg-gray-200" />}>
-            <ReviewsList maxItems={6} />
-          </Suspense>
+          {reviewsReady ? (
+            <Suspense fallback={<div className="h-64 animate-pulse rounded-2xl bg-gray-200" />}>
+              <ReviewsList maxItems={6} />
+            </Suspense>
+          ) : (
+            <div className="h-64 rounded-2xl bg-gray-100" />
+          )}
           <div className="mt-10 text-center">
             <Link to="/reviews"
               className="inline-flex items-center gap-2 rounded-xl border border-gray-200 px-6 py-2.5 text-sm font-semibold text-[#0f0f0f] transition-colors hover:border-gray-400">

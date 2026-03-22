@@ -1,5 +1,3 @@
-import emailjs from "@emailjs/browser";
-
 const SERVICE_ID = process.env.REACT_APP_EMAILJS_SERVICE_ID;
 const OWNER_TEMPLATE = process.env.REACT_APP_EMAILJS_OWNER_TEMPLATE_ID;
 const CUSTOMER_TEMPLATE = process.env.REACT_APP_EMAILJS_CUSTOMER_TEMPLATE_ID;
@@ -20,8 +18,14 @@ function isEmailJSConfigured() {
   );
 }
 
+async function getEmailJs() {
+  const mod = await import("@emailjs/browser");
+  return mod.default;
+}
+
 export async function notifyOwner(booking) {
   if (!isEmailJSConfigured()) return null;
+  const emailjs = await getEmailJs();
   return emailjs.send(
     SERVICE_ID,
     OWNER_TEMPLATE,
@@ -45,6 +49,7 @@ export async function notifyOwner(booking) {
 
 export async function notifyCustomer(booking) {
   if (!booking.email || !isEmailJSConfigured()) return null;
+  const emailjs = await getEmailJs();
   return emailjs.send(
     SERVICE_ID,
     CUSTOMER_TEMPLATE,

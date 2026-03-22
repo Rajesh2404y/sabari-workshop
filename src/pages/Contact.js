@@ -7,7 +7,7 @@ const CONTACT_ITEMS = [
   { Icon: Phone,          label: "Phone",    value: "+91 94444 84399",        href: "tel:+919444484399" },
   { Icon: MessageCircle,  label: "WhatsApp", value: "Chat with us instantly", href: "https://wa.me/919444484399?text=Hi%20Sabari%20Auto%2C%20I%20need%20car%20service" },
   { Icon: Mail,           label: "Email",    value: "sabariauto009@gmail.com", href: "mailto:sabariauto009@gmail.com" },
-  { Icon: MapPin,         label: "Location", value: "Anna Nagar, Chennai",    href: "https://maps.google.com/?q=Anna+Nagar+Chennai" },
+  { Icon: MapPin,         label: "Location", value: "No. 41, Gangai Nagar, Service Road, Kamban Street, Kallikuppam, Chennai – 600053", href: "https://maps.google.com/?q=No.+41+Gangai+Nagar+Service+Road+Kamban+Street+Kallikuppam+Chennai+600053" },
   { Icon: Clock,          label: "Hours",    value: "Mon–Sat: 8 AM – 8 PM",  href: null },
 ];
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { MapPin, ExternalLink } from "lucide-react";
 
-const MAPS_LINK = "https://maps.google.com/?q=Sabari+Auto+Workshop+Anna+Nagar+Chennai";
+const MAPS_LINK = "https://maps.google.com/?q=No.+41+Gangai+Nagar+Service+Road+Kamban+Street+Kallikuppam+Chennai+600053";
 
 export default function WorkshopMap() {
   return (
@@ -12,7 +12,7 @@ export default function WorkshopMap() {
         </div>
         <div>
           <p className="font-bold text-[#0f0f0f]">Sabari Auto Workshop</p>
-          <p className="mt-0.5 text-sm text-gray-500">Anna Nagar, Chennai – 600040</p>
+          <p className="mt-0.5 text-sm text-gray-500">Kallikuppam, Chennai – 600053</p>
           <p className="mt-1 text-xs text-gray-400">Mon–Sat: 8 AM–8 PM · Sun: 9 AM–5 PM</p>
         </div>
         <a href={MAPS_LINK} target="_blank" rel="noreferrer"

@@ -2,11 +2,11 @@ import React, { lazy, Suspense, useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
 
 const Footer       = lazy(() => import("./components/Footer"));
 
 // All pages lazy-loaded — each becomes its own JS chunk
-const Home         = lazy(() => import("./pages/Home"));
 const Services     = lazy(() => import("./pages/Services"));
 const Booking      = lazy(() => import("./pages/Booking"));
 const Contact      = lazy(() => import("./pages/Contact"));
@@ -29,18 +29,27 @@ function PageLoader() {
 }
 
 export default function App() {
-  // Mount Chatbot only after the page is fully interactive
-  // Eliminates Chatbot's JS from TBT measurement window
   const [chatReady, setChatReady] = useState(false);
+
   useEffect(() => {
-    const id = requestIdleCallback
-      ? requestIdleCallback(() => setChatReady(true), { timeout: 3000 })
-      : setTimeout(() => setChatReady(true), 2000);
+    if (chatReady) return undefined;
+
+    const activateChat = () => setChatReady(true);
+    const events = ["pointerdown", "keydown", "touchstart", "scroll"];
+
+    events.forEach((eventName) =>
+      window.addEventListener(eventName, activateChat, { once: true, passive: true })
+    );
+
+    const id = setTimeout(activateChat, 15000);
+
     return () => {
-      if (requestIdleCallback) cancelIdleCallback(id);
-      else clearTimeout(id);
+      clearTimeout(id);
+      events.forEach((eventName) =>
+        window.removeEventListener(eventName, activateChat)
+      );
     };
-  }, []);
+  }, [chatReady]);
 
   return (
     <AuthProvider>

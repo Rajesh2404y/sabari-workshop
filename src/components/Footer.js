@@ -28,7 +28,7 @@ export default function Footer() {
             </div>
           </Link>
           <p className="max-w-xs text-sm leading-relaxed text-gray-500">
-            Professional car service and repair in Anna Nagar, Chennai. Trusted by 500+ customers since 2010.
+            Professional car service and repair in Kallikuppam, Chennai. Trusted by 500+ customers since 2010.
           </p>
         </div>
 
@@ -55,9 +55,9 @@ export default function Footer() {
             <a href="mailto:sabariauto009@gmail.com" className="flex items-center gap-2.5 hover:text-[#ff3b3b] transition-colors">
               <Mail className="h-4 w-4 text-[#ff3b3b] shrink-0" /> sabariauto009@gmail.com
             </a>
-            <a href="https://maps.google.com/?q=Anna+Nagar+Chennai" target="_blank" rel="noreferrer"
+            <a href="https://maps.google.com/?q=No.+41+Gangai+Nagar+Service+Road+Kamban+Street+Kallikuppam+Chennai+600053" target="_blank" rel="noreferrer"
               className="flex items-center gap-2.5 hover:text-[#ff3b3b] transition-colors">
-              <MapPin className="h-4 w-4 text-[#ff3b3b] shrink-0" /> Anna Nagar, Chennai
+              <MapPin className="h-4 w-4 text-[#ff3b3b] shrink-0" /> No. 41, Gangai Nagar, Kallikuppam, Chennai – 600053
             </a>
           </div>
           <a href="https://wa.me/919444484399?text=Hi%20Sabari%20Auto%2C%20I%20need%20car%20service"
